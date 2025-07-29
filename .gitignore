@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Virtual Environment
+venv/
+.venv/
+
+# Django
+*.log
+*.pot
+*.pyc
+db.sqlite3
+db.sqlite3-journal
+
+# VSCode / IDEs
+.vscode/
+.idea/
+
+# Environment variables
+.env
+.env.*
+
+# Byte-compiled files
+*.so
+
+# macOS/Linux/Windows system files
+.DS_Store
+Thumbs.db
+
+# Migrations (optional if you want to track only final migrations)
+*/migrations/__pycache__/
+*/migrations/*.pyc
+*/migrations/*.pyo
