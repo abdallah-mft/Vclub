@@ -32,16 +32,25 @@ class UserSearchView(generics.ListAPIView):
 class ClubList(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get (self, request):
+    def get(self, request):
         category = request.query_params.get('category')
-        if category : 
-            clubs = list(Club.objects.filter(category=category).values())
-        else:
-            clubs = list(Club.objects.values())
-        return JsonResponse(clubs, safe=False , status = 200 )
-        
+        wilaya = request.query_params.get('wilaya')
+
+        queryset = Club.objects
+   
+        if category:
+            queryset = queryset.filter(category=category)
+        if wilaya:
+            queryset = queryset.filter(wilaya=wilaya)
+
+        clubs = list(queryset.values())
+        return JsonResponse(clubs, safe=False, status=200)
 
 
-    
+
+
+
+
+
 
 
