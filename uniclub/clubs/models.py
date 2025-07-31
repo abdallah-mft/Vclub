@@ -89,9 +89,34 @@ class ClubRequest(models.Model):
         ordering = ['-created_at']
 
     def save(self, *args, **kwargs):
+        old = None 
+
+        if Club.objects.filter(username=self.username).exists():
+            return #Already created 
+
+        if self.pk:
+            old = ClubRequest.objects.get(pk=self.pk)
+
         if not self.slug:
             self.slug = slugify(self.username)
         super().save(*args, **kwargs)
+
+        if old and not old.is_approved and self.is_approved:
+            Club.objects.create(
+            name=self.name,
+            username=self.username,
+            slug=slugify(self.username),
+            description=self.description,
+            wilaya=self.wilaya,
+            university=self.university,
+            founded_at=self.founded_at,
+            category=self.category,
+            logo=self.logo,
+            president=self.president,
+            vice_president=self.vice_president,
+            departments=self.departments,
+            custom_fields=self.custom_fields
+            )
 
     def __str__(self):
         return f"[REQUEST] {self.name}"

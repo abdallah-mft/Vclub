@@ -14,7 +14,30 @@ class ClubRequestSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ['status', 'reviewed_by'] # Same here 
 
+    def get_president_details(self,obj):
+        if obj.president:
+            return {
+                'id': obj.president.id,
+                'username': obj.president.username
+            }
+        return None 
+    
+    def get_vice_president_details(self, obj):
+        if obj.vice_president:
+            return {
+                'id': obj.vice_president.id,
+                'username': obj.vice_president.username
+            }
+        return None
+
     def validate(self, data):
         if data['president'] == data['vice_president']:
             raise serializers.ValidationError("President and Vice President must be different users.")
         return data
+    
+
+
+class UserSearchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'username']
