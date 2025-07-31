@@ -48,7 +48,7 @@ class ClubList(APIView):
 
 
 
-
+# V0.1 is ready ✔️
 
 
 
