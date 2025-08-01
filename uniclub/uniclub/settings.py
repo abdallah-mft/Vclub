@@ -4,6 +4,17 @@ from datetime import timedelta
 import dotenv
 import dotenv
 dotenv.load_dotenv(os.path.join(Path(__file__).resolve().parent.parent.parent, '.env'))
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+# Configure Cloudinary
+cloudinary.config(
+    cloud_name=os.getenv('CLOUD_NAME'),
+    api_key=os.getenv('API_KEY_CL'),
+    api_secret=os.getenv('API_SECRET_CL')
+)
+
 """
 Django settings for uniclub project.
 
@@ -48,7 +59,12 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
+    'cloudinary',  
+    'cloudinary_storage', 
 ]
+
+
+
 
 SIMPLE_JWT = {
     # Set the token lifetime to 1 day for easier testing
@@ -180,3 +196,21 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     )
 }
+
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUD_NAME'),
+    'API_KEY':    os.getenv('API_KEY_CL'),
+    'API_SECRET': os.getenv('API_SECRET_CL'),
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
+
+
+# Add this after dotenv.load_dotenv()
+print("CLOUDINARY CONFIG:")
+print(f"CLOUD_NAME: {os.getenv('CLOUD_NAME')}")
+print(f"API_KEY: {os.getenv('API_KEY_CL')}")
+print(f"API_SECRET: {os.getenv('API_SECRET_CL')}")

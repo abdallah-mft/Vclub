@@ -1,0 +1,1 @@
+print(sorted([5,8,0]))

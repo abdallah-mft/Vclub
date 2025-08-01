@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db import models
+from cloudinary.models import CloudinaryField
+
 
 
 class CustomUser(AbstractUser):
@@ -16,7 +19,8 @@ class CustomUser(AbstractUser):
     year_of_study = models.PositiveIntegerField(blank=True, null=True)
     field = models.CharField(max_length=100, blank=True, null=True)
     graduation_year = models.PositiveIntegerField(blank=True, null=True)
-
+    profile_picture = CloudinaryField('image', blank=True, null=True) 
+    video = CloudinaryField('video', blank=True, null=True)
 
     def __str__(self):
         return self.username 
