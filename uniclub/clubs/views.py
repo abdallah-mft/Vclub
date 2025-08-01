@@ -9,6 +9,7 @@ from rest_framework.views import APIView
 from .models import Club
 from django.http import JsonResponse
 from django.views import View
+import random 
 
 
 # Anyone can send a club creation request
@@ -33,18 +34,24 @@ class ClubList(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        category = request.query_params.get('category')
-        wilaya = request.query_params.get('wilaya')
+        category =    request.query_params.get('category')
+        wilaya   =    request.query_params.get('wilaya')
+        shuffle_  =    request.query_params.get('shuffle','false').lower() == 'true' 
 
-        queryset = Club.objects
-   
+        queryset = Club.objects.all()     # queryset = many objects (rows)
+
+
         if category:
-            queryset = queryset.filter(category=category)
+                queryset = queryset.filter(category=category) # list?category=Technology 
         if wilaya:
-            queryset = queryset.filter(wilaya=wilaya)
+                queryset = queryset.filter(wilaya=wilaya) # list?wilaya=Medea 
 
-        clubs = list(queryset.values())
-        return JsonResponse(clubs, safe=False, status=200)
+        clubs = list(queryset.values())  # Turn queryset into queryset of dict but we django need list of dict so we use list  
+            
+        if shuffle_:
+             random.shuffle(clubs) # shuffle() is a built in method in random that works with lists (clubs list in this case)
+
+        return JsonResponse(clubs, safe=False, status=200) 
 
 
 
